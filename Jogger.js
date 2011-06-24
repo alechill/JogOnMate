@@ -11,7 +11,9 @@ var Jogger = (function(){
 	var _instances = {},
 		_masterLevel = 0,
 		_log = [],
-		_levels = ['all', 'trace', 'log', 'debug', 'info', 'warn', 'error', 'fatal', 'none'];
+		_levels = ['all', 'trace', 'log', 'debug', 'info', 'warn', 'error', 'fatal', 'none'],
+		_i = 0,
+		_len;
 
 	function Logger(name, level, target){
 		this.setName(name);
@@ -68,36 +70,19 @@ var Jogger = (function(){
 					}
 				}
 			}
-		},
-		
-		trace: function(output){
-			this.doLog(Jogger.TRACE, output);
-		},
-		
-		log: function(output){
-			this.doLog(Jogger.LOG, output);
-		},
-
-		debug: function(output){
-			this.doLog(Jogger.DEBUG, output);
-		},
-		
-		info: function(output){
-			this.doLog(Jogger.INFO, output);
-		},
-		
-		warn: function(output){
-			this.doLog(Jogger.WARN, output);
-		},
-		
-		error: function(output){
-			this.doLog(Jogger.ERROR, output);
-		},
-		
-		fatal: function(output){
-			this.doLog(Jogger.FATAL, output);
 		}
 		
+	};
+	
+	// add convenience methods for loggable levels
+	for(_i = 0, _len = _levels.length; _i < _len; _i++){
+		if(_levels[_i] != 'all' && _levels[_i] != 'none'){
+			Logger.prototype[_levels[_i]] = (function(level){
+				return function(output){
+					Logger.prototype.doLog.call( this, Jogger[level], output);
+				}
+			})(_levels[_i].toUpperCase());
+		}
 	};
 	
 	return { 
