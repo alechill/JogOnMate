@@ -79,7 +79,7 @@ var Jogger = (function(){
 		if(_levels[_i] != 'all' && _levels[_i] != 'none'){
 			Logger.prototype[_levels[_i]] = (function(level){
 				return function(output){
-					Logger.prototype.doLog.call( this, Jogger[level], output);
+					Logger.prototype.doLog.call(this, Jogger[level], output);
 				}
 			})(_levels[_i].toUpperCase());
 		}
