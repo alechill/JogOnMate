@@ -13,9 +13,8 @@ var Jogger = (function(){
 		_log = [],
 		_levels = ['all', 'trace', 'log', 'debug', 'info', 'warn', 'error', 'fatal', 'none'];
 
-	
 	function Logger(name, level, target){
-		this.name = name;
+		this.setName(name);
 		// default to NONE
 		this.setLevel(Jogger.NONE);
 		this.setLevel(level);
@@ -24,7 +23,7 @@ var Jogger = (function(){
 	
 	Logger.prototype = {
 		
-		name: 'General',
+		name: 'Jogger',
 		
 		level: 8,
 		
@@ -32,12 +31,16 @@ var Jogger = (function(){
 			output: function(){} 
 		},
 		
-		setLevel: function(level){
-			if(level != undefined) this.level = level;
+		setName: function(value){
+			if(value != undefined) this.name = value;
 		},
 		
-		setTarget: function(target){
-			if(target != undefined) this.target = target;
+		setLevel: function(value){
+			if(value != undefined) this.level = value;
+		},
+		
+		setTarget: function(value){
+			if(value != undefined) this.target = value;
 		},
 		
 		doLog: function(level, output){
@@ -45,7 +48,6 @@ var Jogger = (function(){
 			// cant log if none passed
 			if(level < Jogger.NONE){
 				// only log if Jogger is set up to be this level
-			
 				if(level >= this.level && level >= _masterLevel){
 					// dont log a trace
 					if(level === Jogger.TRACE){
@@ -99,8 +101,7 @@ var Jogger = (function(){
 	};
 	
 	return { 
-	
-	
+		
 		isInstance: function(subject){
 			return subject instanceof Logger;
 		},
@@ -160,8 +161,7 @@ var Jogger = (function(){
 						window.console[_levels[level]](msg);
 					}
 					// do a trace if necessary
-				
-	if( do_trace && window.console['trace'] ){
+					if( do_trace && window.console['trace'] ){
 						window.console.trace();
 					}
 				}
